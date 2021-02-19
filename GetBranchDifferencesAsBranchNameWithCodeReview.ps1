@@ -1,3 +1,5 @@
+## This function will create a new branch with a branch from remote and append /CodeReview to it
+
 function GetBranchDifferences
 {
     [CmdletBinding()]
