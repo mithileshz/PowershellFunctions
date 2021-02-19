@@ -9,19 +9,22 @@ function GetBranchDifferences
         [Parameter(Mandatory=$true, Position=0)]
         [string]$branch
     )
-     
-    $localTemporaryBranchName = 'TEMPORARY.BRANCH.NAME'; # Replace this
+    
+    ## Replace the branch name below to your hearts desire
+    $localTemporaryBranchName = 'TEMPORARY.BRANCH.NAME';
     
     $branchWithRefsHead = -join("refs/heads/", $branch);
     
     $existingTemporaryBranch = git for-each-ref --format='%(refname:short)' $branchWithRefsHead;
      
     if ($existingTemporaryBranch -eq $localTemporaryBranchName) {
-        git branch -D $localTemporaryBranchName # Force delete the branch as the HEAD of this branch may be out of sync with master
+        # Force delete the branch as the HEAD of this branch may be out of sync with master
+        git branch -D $localTemporaryBranchName
     }
      
     git fetch origin;
-    git checkout -b $localTemporaryBranchName origin/master; # Create new branch based on the remote master
+    # Create new branch based on the remote master
+    git checkout -b $localTemporaryBranchName origin/master;
     $branchNameForMerge = -join("origin/", $branch);
     git merge $branchNameForMerge --no-commit --no-ff;
      
