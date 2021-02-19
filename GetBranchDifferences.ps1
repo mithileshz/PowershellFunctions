@@ -13,7 +13,7 @@ function GetBranchDifferences
     
     $existingTemporaryBranch = git for-each-ref --format='%(refname:short)' $branchWithRefsHead;
      
-    if ($existingTemporaryBranch -like "*$localTemporaryBranchName") {
+    if ($existingTemporaryBranch -eq $localTemporaryBranchName) {
         git branch -D $localTemporaryBranchName # Force delete the branch as the HEAD of this branch may be out of sync with master
     }
      
