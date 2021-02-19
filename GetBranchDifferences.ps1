@@ -1,3 +1,6 @@
+## This function will return the differences of a branch on remote compared to the upstream origin/master.
+## It will create a temporary branch with the name on line 13.
+
 function GetBranchDifferences
 {
     [CmdletBinding()]
@@ -7,9 +10,9 @@ function GetBranchDifferences
         [string]$branch
     )
      
-    $localTemporaryBranchName = 'user/FIRSTNAME.LASTNAME/TEMPORARY.BRANCH.NAME'; # Replace this
+    $localTemporaryBranchName = 'TEMPORARY.BRANCH.NAME'; # Replace this
     
-    $branchWithRefsHead = -join("refs/head", $branch);
+    $branchWithRefsHead = -join("refs/heads/", $branch);
     
     $existingTemporaryBranch = git for-each-ref --format='%(refname:short)' $branchWithRefsHead;
      
