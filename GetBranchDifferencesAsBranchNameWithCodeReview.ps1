@@ -9,11 +9,12 @@ function GetBranchDifferences
     
     git checkout master;
     
+    $prefixForBranchName = "refs/heads/";
     $suffixForBranchName = "/CodeReview";
     
     $codeReviewBranchName = -join($branch, $suffixForBranchName);
     
-    $existingTemporaryBranch = git branch --list $codeReviewBranchName;
+    $existingTemporaryBranch = git for-each-ref --format='%(refname:short)' branch --list $codeReviewBranchName;
     
     if ($existingTemporaryBranch -like "*$codeReviewBranchName") {
       git branch -D $codeReviewBranchName # Force delete the branch
@@ -28,4 +29,17 @@ function GetBranchDifferences
     git merge $branchNameForMerge --no-commit --no-ff;
     
     Write-Host "Success!" -ForegroundColor Green;
+}
+
+function CleanupBranches
+{
+	git checkout master;
+	$branches = git for-each-ref --format='%(refname:short)' 'refs/heads/**/CodeReview';
+	Foreach ($branch in $branches) 
+	{
+		if ($branch -like "*/CodeReview")
+		{
+			git branch -D $branch;
+		}
+	}
 }
